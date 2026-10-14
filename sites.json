@@ -1,0 +1,13 @@
+{
+  "pages": [
+    { "nom": "Le site des spas (accueil)", "url": "https://spa-groupelespadon.com/", "texte": "Espadon" },
+    { "nom": "La boutique des spas (lit la base de données)", "url": "https://spa-groupelespadon.com/categorie-produit/produits", "texte": "€" },
+    { "nom": "Le CRM des spas", "url": "https://spa-groupelespadon.com/admin", "statuts": [200, 307, 308], "suivre": false },
+    { "nom": "La boutique 1tempor'ELLE", "url": "https://www.1temporelle.com/", "texte": "1Tempor" },
+    { "nom": "Le back-office de 1tempor'ELLE", "url": "https://admin.1temporelle.com/login", "texte": "1Tempor" },
+    { "nom": "Le site North Wave", "url": "https://northwave-spa.com/", "texte": "North Wave" }
+  ],
+  "battement": { "url": "https://spa-groupelespadon.com/.well-known/sonde-serveur", "minutes": 20 },
+  "certificats": ["spa-groupelespadon.com", "1temporelle.com", "www.1temporelle.com", "admin.1temporelle.com", "northwave-spa.com"],
+  "domaines": ["spa-groupelespadon.com", "1temporelle.com", "northwave-spa.com", "spa-groupelespadon.fr", "northwave-spa.fr", "northwave-spa.ch"]
+}

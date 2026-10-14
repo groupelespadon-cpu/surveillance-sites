@@ -1,0 +1,45 @@
+name: Sonde des sites
+
+# Toutes les cinq minutes, depuis une machine de GitHub : les sites
+# s'affichent-ils, leurs certificats et leurs domaines sont-ils encore valables,
+# la sonde du serveur donne-t-elle des nouvelles ? Voir sonde.mjs.
+#
+# Le depot est public pour que ces minutes soient gratuites et sans limite ;
+# il ne contient aucun secret (la cle d'envoi est un secret du depot).
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sonde
+  cancel-in-progress: false
+
+jobs:
+  sonder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Controler les sites
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          MAIL_TO: ${{ vars.MAIL_TO }}
+        run: node sonde.mjs
+
+      # Meme si le mail n'est pas parti : l'etat dit ce qui reste a signaler.
+      - name: Garder l'etat
+        if: always()
+        run: |
+          git config user.name "sonde"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add etat.json
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Etat de la surveillance"
+          git pull -q --rebase && git push -q
