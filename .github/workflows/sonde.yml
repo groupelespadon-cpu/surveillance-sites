@@ -11,6 +11,11 @@ on:
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
+    inputs:
+      essai:
+        description: "Envoyer un e-mail d'essai, sans rien controler"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -31,6 +36,7 @@ jobs:
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           MAIL_TO: ${{ vars.MAIL_TO }}
+          ESSAI: ${{ inputs.essai }}
         run: node sonde.mjs
 
       # Meme si le mail n'est pas parti : l'etat dit ce qui reste a signaler.

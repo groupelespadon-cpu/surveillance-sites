@@ -254,6 +254,18 @@ async function avertir(nouveaux, rappels, retablis) {
 
 // --- Passage -----------------------------------------------------------------
 
+// Lancé à la main avec « essai » coché : un mail d'exemple, rien d'autre. Seul
+// moyen de prouver que la clé d'envoi marche sans attendre une vraie panne.
+if (process.env.ESSAI === 'true') {
+  const exemple = {
+    titre: 'ESSAI, rien n’est en panne : Le site des spas (accueil) ne répond plus (spa-groupelespadon.com)',
+    quand: `depuis le ${paris(maintenant)}`,
+    detail: 'https://spa-groupelespadon.com/ : HTTP 502 (exemple)',
+    gravite: 'alerte',
+  }
+  process.exit((await avertir([exemple], [], [])) ? 0 : 1)
+}
+
 const resultats = await Promise.all(CONFIG.pages.map(verifierPage))
 await Promise.all([verifierBattement(), verifierCertificats(), verifierDomaines()])
 
